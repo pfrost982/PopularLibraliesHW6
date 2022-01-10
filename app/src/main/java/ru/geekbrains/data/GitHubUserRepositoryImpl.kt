@@ -24,6 +24,7 @@ class GitHubUserRepositoryImpl : GitHubUserRepository {
     }
 
     override fun getUserByLogin(login: String): Single<GitHubUser> {
-        return gitHubApi.fetchUserByLogin(login)
+        return roomDb.getUserByLogin(login)
+        //return gitHubApi.fetchUserByLogin(login)
     }
 }
