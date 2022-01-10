@@ -2,7 +2,9 @@ package ru.geekbrains.mvpuser
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.bumptech.glide.Glide
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.geekbrains.App.Navigation.router
@@ -34,7 +36,15 @@ class UserFragment: MvpAppCompatFragment(R.layout.view_user), UserView {
     }
 
     override fun showUser(user: GitHubUser) {
+        Glide.with(viewBinding.userAvatar.context)
+            .load(user.avatarUrl)
+            .into(viewBinding.userAvatar)
         viewBinding.userLogin.text = user.login
+        viewBinding.url.text = user.url
+    }
+
+    override fun showError(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     companion object {
