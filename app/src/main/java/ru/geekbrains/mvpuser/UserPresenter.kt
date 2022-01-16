@@ -21,5 +21,14 @@ class UserPresenter(private val userLogin: String) : MvpPresenter<UserView>() {
             }, { error ->
                 viewState.showError(error.message.toString())
             })
+
+        userRepository.getUserRepos(userLogin)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ repo ->
+                // в репо приходит список репозиториев
+            }, { error ->
+                viewState.showError(error.message.toString())
+            })
     }
 }

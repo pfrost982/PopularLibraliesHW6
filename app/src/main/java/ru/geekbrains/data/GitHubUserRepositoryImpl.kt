@@ -30,4 +30,8 @@ class GitHubUserRepositoryImpl
         return roomDb.getGitHubUserDao().getUserByLogin(login)
         //return gitHubApi.fetchUserByLogin(login)
     }
+
+    override fun getUserRepos(login: String): Single<List<GitHubRepo>> {
+        return gitHubApi.fetchUserRepositories(login)
+    }
 }
