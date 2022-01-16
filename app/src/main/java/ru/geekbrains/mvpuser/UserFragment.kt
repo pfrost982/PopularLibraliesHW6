@@ -22,7 +22,8 @@ class UserFragment: MvpAppCompatFragment(R.layout.view_user), UserView {
 
     private val presenter: UserPresenter by moxyPresenter {
         UserPresenter(userLogin = userLogin).apply {
-            App.instance.component.inject(this)
+            //App.instance.component.inject(this)
+            App.instance.component.provideUserComponent().build().inject(this)
         }
     }
 

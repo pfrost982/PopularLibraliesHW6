@@ -1,6 +1,7 @@
 package ru.geekbrains.data
 
 import io.reactivex.rxjava3.core.Single
+import ru.geekbrains.mvpuser.GitHubRepo
 
 interface GitHubUserRepository {
 

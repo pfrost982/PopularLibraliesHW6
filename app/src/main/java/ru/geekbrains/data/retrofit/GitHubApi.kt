@@ -2,9 +2,8 @@ package ru.geekbrains.data.retrofit
 
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
-import retrofit2.http.POST
 import retrofit2.http.Path
-import ru.geekbrains.data.GitHubRepo
+import ru.geekbrains.mvpuser.GitHubRepo
 import ru.geekbrains.data.GitHubUser
 
 interface GitHubApi {

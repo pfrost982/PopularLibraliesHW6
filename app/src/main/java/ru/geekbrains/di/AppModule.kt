@@ -1,6 +1,8 @@
 package ru.geekbrains.di
 
 import dagger.Module
+import ru.geekbrains.mvpuser.di.UserComponent
 
-@Module
-class AppModule() {}
+@Module(subcomponents = [UserComponent::class])
+class AppModule() {
+}

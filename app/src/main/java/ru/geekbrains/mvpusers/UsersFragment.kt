@@ -2,6 +2,7 @@ package ru.geekbrains.mvpusers
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
@@ -34,6 +35,10 @@ class UsersFragment: MvpAppCompatFragment(R.layout.view_users), UsersView, Users
 
     override fun onUserPicked(user: GitHubUser) {
         presenter.goToNextScreen(user.login!!)
+    }
+
+    override fun showError(message: String) {
+        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }
 
     companion object {

@@ -30,9 +30,8 @@ class UsersPresenter : MvpPresenter<UsersView>() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
                 viewState.showUsers(it)
-            },{
-                val errorMessage = it.message
-                //DisplayError
+            }, { error ->
+                viewState.showError(error.message.toString())
             })
     }
 }

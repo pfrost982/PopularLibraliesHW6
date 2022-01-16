@@ -1,4 +1,4 @@
-package ru.geekbrains.data
+package ru.geekbrains.mvpuser
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -23,5 +23,5 @@ data class GitHubRepo(
 
     @ColumnInfo
     @SerializedName("size")
-    val url: Long? = null
+    val size: Long? = null
 ) : Parcelable

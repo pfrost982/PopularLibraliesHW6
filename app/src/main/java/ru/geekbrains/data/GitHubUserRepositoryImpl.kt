@@ -3,6 +3,7 @@ package ru.geekbrains.data
 import io.reactivex.rxjava3.core.Single
 import ru.geekbrains.data.retrofit.GitHubApi
 import ru.geekbrains.data.room.DBStorage
+import ru.geekbrains.mvpuser.GitHubRepo
 import javax.inject.Inject
 
 class GitHubUserRepositoryImpl
