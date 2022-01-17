@@ -46,6 +46,11 @@ class UsersFragment : MvpAppCompatFragment(R.layout.view_users), UsersView,
             }.show()
     }
 
+    override fun setProgressBarVisibility(isVisible: Boolean){
+        if (isVisible) viewBinging.progress.visibility = View.VISIBLE
+        else viewBinging.progress.visibility = View.GONE
+    }
+
     companion object {
         fun newInstance(): Fragment = UsersFragment()
     }

@@ -21,7 +21,9 @@ class UserPresenter(private val userLogin: String) : MvpPresenter<UserView>() {
             .getUserByLogin(userLogin)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { viewState.setProgressBarVisibility(true) }
             .subscribe({ user ->
+                viewState.setProgressBarVisibility(false)
                 viewState.showUser(user)
             }, { error ->
                 viewState.showError(error.message.toString())
@@ -31,7 +33,9 @@ class UserPresenter(private val userLogin: String) : MvpPresenter<UserView>() {
             .getUserRepos(userLogin)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { viewState.setProgressBarVisibility(true) }
             .subscribe({ reposList ->
+                viewState.setProgressBarVisibility(false)
                 var reposString = ""
                 reposList.forEach { repo ->
                     reposString = reposString + repo.full_name + "\n"

@@ -28,7 +28,9 @@ class UsersPresenter : MvpPresenter<UsersView>() {
         userRepository.getUsers()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnSubscribe { viewState.setProgressBarVisibility(true) }
             .subscribe({
+                viewState.setProgressBarVisibility(false)
                 viewState.showUsers(it)
             }, { error ->
                 viewState.showError(error.message.toString())
