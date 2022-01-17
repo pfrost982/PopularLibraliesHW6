@@ -2,8 +2,8 @@ package ru.geekbrains.mvpusers
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.google.android.material.snackbar.Snackbar
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.geekbrains.App
@@ -12,7 +12,8 @@ import ru.geekbrains.data.GitHubUser
 import ru.geekbrains.databinding.ViewUsersBinding
 import ru.geekbrains.recycler.UsersAdapter
 
-class UsersFragment: MvpAppCompatFragment(R.layout.view_users), UsersView, UsersAdapter.OnUserClickListener {
+class UsersFragment : MvpAppCompatFragment(R.layout.view_users), UsersView,
+    UsersAdapter.OnUserClickListener {
 
     private val presenter: UsersPresenter by moxyPresenter {
         UsersPresenter().apply {
@@ -38,7 +39,11 @@ class UsersFragment: MvpAppCompatFragment(R.layout.view_users), UsersView, Users
     }
 
     override fun showError(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        Snackbar.make(viewBinging.root, message, Snackbar.LENGTH_INDEFINITE)
+            .setAction("Reload...") {
+                presenter.updateContent()
+            }.show()
     }
 
     companion object {

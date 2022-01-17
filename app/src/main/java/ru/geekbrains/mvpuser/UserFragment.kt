@@ -5,6 +5,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.geekbrains.App
@@ -45,7 +46,11 @@ class UserFragment: MvpAppCompatFragment(R.layout.view_user), UserView {
     }
 
     override fun showError(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        Snackbar.make(viewBinding.root, message, Snackbar.LENGTH_INDEFINITE)
+            .setAction("Reload...") {
+                presenter.updateContent()
+            }.show()
     }
 
     companion object {

@@ -13,6 +13,10 @@ class UserPresenter(private val userLogin: String) : MvpPresenter<UserView>() {
     lateinit var userReposRepository: UserReposRepository
 
     override fun onFirstViewAttach() {
+        updateContent()
+    }
+
+    fun updateContent() {
         userReposRepository
             .getUserByLogin(userLogin)
             .subscribeOn(Schedulers.io())
@@ -33,7 +37,7 @@ class UserPresenter(private val userLogin: String) : MvpPresenter<UserView>() {
                     reposString = reposString + repo.full_name + "\n"
                 }
                 viewState.showReposList(reposString)
-            },{ error ->
+            }, { error ->
                 viewState.showError(error.message.toString())
             })
     }
