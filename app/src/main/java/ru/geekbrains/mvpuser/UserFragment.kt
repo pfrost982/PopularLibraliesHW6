@@ -41,6 +41,10 @@ class UserFragment: MvpAppCompatFragment(R.layout.view_user), UserView {
         viewBinding.url.text = user.url
     }
 
+    override fun showReposList(reposList: String) {
+        viewBinding.repos.text = reposList
+    }
+
     override fun showError(message: String) {
         Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
     }

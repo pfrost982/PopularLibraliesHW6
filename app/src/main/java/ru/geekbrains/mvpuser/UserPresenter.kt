@@ -13,7 +13,7 @@ class UserPresenter(private val userLogin: String) : MvpPresenter<UserView>() {
     lateinit var userRepository: GitHubUserRepository
 
     @Inject
-    lateinit var roomRepoDB: DBRepoStorage
+    lateinit var userReposRepository: UserReposRepository
 
     override fun onFirstViewAttach() {
         userRepository
@@ -26,14 +26,17 @@ class UserPresenter(private val userLogin: String) : MvpPresenter<UserView>() {
                 viewState.showError(error.message.toString())
             })
 
-        userRepository.getUserRepos(userLogin)
+        userReposRepository
+            .getUserRepos(userLogin)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({ repos ->
-                Thread {
-                    roomRepoDB.getRepoDao().saveRepos(repos)
-                }.start()
-            }, { error ->
+            .subscribe({ reposList ->
+                var reposString: String = ""
+                reposList.forEach { repo ->
+                    reposString = reposString + repo.full_name + "\n"
+                }
+                viewState.showReposList(reposString)
+            },{ error ->
                 viewState.showError(error.message.toString())
             })
     }

@@ -14,5 +14,8 @@ interface UserView : MvpView {
     fun showUser(user: GitHubUser)
 
     @SingleState
+    fun showReposList(reposList: String)
+
+    @SingleState
     fun showError(message: String)
 }
