@@ -4,16 +4,16 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 import ru.geekbrains.data.GitHubUserRepository
-import ru.geekbrains.navigation.CustomRouter
+import ru.geekbrains.mvpuser.user_room.DBRepoStorage
+import javax.inject.Inject
 
-class UserPresenter(
-    private val userLogin: String,
-    private val userRepository: GitHubUserRepository,
-    private val router: CustomRouter
-) : MvpPresenter<UserView>() {
+class UserPresenter(private val userLogin: String) : MvpPresenter<UserView>() {
+
+    @Inject
+    lateinit var userReposRepository: UserReposRepository
 
     override fun onFirstViewAttach() {
-        userRepository
+        userReposRepository
             .getUserByLogin(userLogin)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -22,5 +22,20 @@ class UserPresenter(
             }, { error ->
                 viewState.showError(error.message.toString())
             })
+
+        userReposRepository
+            .getUserRepos(userLogin)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({ reposList ->
+                var reposString = ""
+                reposList.forEach { repo ->
+                    reposString = reposString + repo.full_name + "\n"
+                }
+                viewState.showReposList(reposString)
+            },{ error ->
+                viewState.showError(error.message.toString())
+            })
     }
 }
+
