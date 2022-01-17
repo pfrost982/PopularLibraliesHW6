@@ -10,13 +10,10 @@ import javax.inject.Inject
 class UserPresenter(private val userLogin: String) : MvpPresenter<UserView>() {
 
     @Inject
-    lateinit var userRepository: GitHubUserRepository
-
-    @Inject
     lateinit var userReposRepository: UserReposRepository
 
     override fun onFirstViewAttach() {
-        userRepository
+        userReposRepository
             .getUserByLogin(userLogin)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -31,7 +28,7 @@ class UserPresenter(private val userLogin: String) : MvpPresenter<UserView>() {
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({ reposList ->
-                var reposString: String = ""
+                var reposString = ""
                 reposList.forEach { repo ->
                     reposString = reposString + repo.full_name + "\n"
                 }

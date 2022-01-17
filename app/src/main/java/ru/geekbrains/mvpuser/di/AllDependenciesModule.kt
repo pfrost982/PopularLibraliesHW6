@@ -6,6 +6,7 @@ import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import ru.geekbrains.data.retrofit.GitHubApi
+import ru.geekbrains.data.room.DBStorage
 import ru.geekbrains.mvpuser.UserReposRepository
 import ru.geekbrains.mvpuser.UserReposRepositoryImpl
 import ru.geekbrains.mvpuser.user_room.DBRepoStorage
@@ -24,7 +25,11 @@ class AllDependenciesModule {
 
     @FragmentScope
     @Provides
-    fun providesUserReposRepositoryModule(@Named("prod") api: GitHubApi, roomRepoDB: DBRepoStorage): UserReposRepository {
-        return UserReposRepositoryImpl(api, roomRepoDB)
+    fun providesUserReposRepositoryModule(
+        @Named("prod") api: GitHubApi,
+        roomDB: DBStorage,
+        roomRepoDB: DBRepoStorage
+    ): UserReposRepository {
+        return UserReposRepositoryImpl(api, roomDB, roomRepoDB)
     }
 }
