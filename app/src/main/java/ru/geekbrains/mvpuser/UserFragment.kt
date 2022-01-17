@@ -5,12 +5,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import ru.geekbrains.App.Navigation.router
+import ru.geekbrains.App
 import ru.geekbrains.R
 import ru.geekbrains.data.GitHubUser
-import ru.geekbrains.data.GitHubUserRepositoryFactory
 import ru.geekbrains.databinding.ViewUserBinding
 
 class UserFragment: MvpAppCompatFragment(R.layout.view_user), UserView {
@@ -22,11 +22,9 @@ class UserFragment: MvpAppCompatFragment(R.layout.view_user), UserView {
     }
 
     private val presenter: UserPresenter by moxyPresenter {
-        UserPresenter(
-            userLogin = userLogin,
-            userRepository = GitHubUserRepositoryFactory.create(),
-            router = router
-        )
+        UserPresenter(userLogin = userLogin).apply {
+            App.instance.component.provideUserComponent().build().inject(this)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -43,8 +41,21 @@ class UserFragment: MvpAppCompatFragment(R.layout.view_user), UserView {
         viewBinding.url.text = user.url
     }
 
+    override fun showReposList(reposList: String) {
+        viewBinding.repos.text = reposList
+    }
+
     override fun showError(message: String) {
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        Snackbar.make(viewBinding.root, message, Snackbar.LENGTH_INDEFINITE)
+            .setAction("Reload...") {
+                presenter.updateContent()
+            }.show()
+    }
+
+    override fun setProgressBarVisibility(isVisible: Boolean) {
+        if (isVisible) viewBinding.progress.visibility = View.VISIBLE
+        else viewBinding.progress.visibility = View.GONE
     }
 
     companion object {

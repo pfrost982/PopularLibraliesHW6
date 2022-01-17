@@ -1,12 +1,9 @@
-package ru.geekbrains.data
+package ru.geekbrains.mvpuser
 
 import io.reactivex.rxjava3.core.Single
-import ru.geekbrains.mvpuser.GitHubRepo
+import ru.geekbrains.data.GitHubUser
 
-interface GitHubUserRepository {
-
-    fun getUsers(): Single<List<GitHubUser>>
-
+interface UserReposRepository {
     fun getUserByLogin(login: String): Single<GitHubUser>
 
     fun getUserRepos(login: String): Single<List<GitHubRepo>>
